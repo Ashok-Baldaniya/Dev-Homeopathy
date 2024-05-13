@@ -50,7 +50,7 @@
 
 
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "../layouts/Button";
 import { RiMicroscopeLine } from "react-icons/ri";
 import ServicesCard from "../layouts/ServicesCard";
@@ -63,6 +63,26 @@ const Services = () => {
   const icon3 = <FaHeartbeat size={35} className="text-backgroundColor" />;
 
   const [visibleCards, setVisibleCards] = useState(6); // Initially show 6 cards
+
+  useEffect(() => {
+    const updateVisibleCards = () => {
+      const screenWidth = window.innerWidth;
+      let cardsPerRow = 1; // Default to 1 card per row
+      if (screenWidth >= 768) {
+        cardsPerRow = 2;
+      }
+      if (screenWidth >= 1024) {
+        cardsPerRow = 3;
+      }
+      const totalCards = cardsPerRow * 3; // Assuming 3 rows
+      setVisibleCards(Math.min(visibleCards, totalCards));
+    };
+
+    updateVisibleCards();
+    window.addEventListener("resize", updateVisibleCards);
+
+    return () => window.removeEventListener("resize", updateVisibleCards);
+  }, [visibleCards]);
 
   const handleLoadMore = () => {
     setVisibleCards((prev) => prev + 6); // Increase by 6 cards on Load More
@@ -80,7 +100,7 @@ const Services = () => {
           </p>
         </div>
       </div>
-      <div className="flex flex-row flex-wrap gap-4 pt-8 lg:pt-14">
+      <div className="flex flex-row flex-wrap gap-4 pt-8 lg:pt-14 justify-center">
         {[...Array(visibleCards)].map((_, index) => (
           <ServicesCard
             key={index}
@@ -90,12 +110,15 @@ const Services = () => {
         ))}
       </div>
       {visibleCards < 18 && (
-        <Button onClick={handleLoadMore} title={'Load More'}></Button>
+        <div className="flex justify-center mt-8">
+          <Button onClick={handleLoadMore} title={"Load More"}></Button>
+        </div>
       )}
     </div>
   );
 };
 
 export default Services;
+
 
 
