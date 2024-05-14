@@ -1,68 +1,14 @@
-// import React from "react";
-// import Button from "../layouts/Button";
-// import { RiMicroscopeLine } from "react-icons/ri";
-// import ServicesCard from "../layouts/ServicesCard";
-// import { MdHealthAndSafety } from "react-icons/md";
-// import { FaHeartbeat } from "react-icons/fa";
-
-// const Services = () => {
-//   const icon1 = (
-//     <RiMicroscopeLine size={35} className=" text-backgroundColor" />
-//   );
-//   const icon2 = (
-//     <MdHealthAndSafety size={35} className=" text-backgroundColor" />
-//   );
-//   const icon3 = <FaHeartbeat size={35} className=" text-backgroundColor" />;
-
-//   return (
-//     <div className=" min-h-screen flex flex-col justify-center lg:px-32 px-5 pt-24 lg:pt-16">
-//       <div className=" flex flex-col items-center lg:flex-row justify-between">
-//         <div>
-//           <h1 className=" text-4xl font-semibold text-center lg:text-start">
-//             Our Services
-//           </h1>
-//           <p className=" mt-2 text-center lg:text-start">
-//             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Natus,
-//             quidem.
-//           </p>
-//         </div>
-
-//       </div>
-//       <div className=" flex flex-col lg:flex-row gap-5 pt-14">
-//         <ServicesCard icon={icon1} title="Lab Test" />
-//         <ServicesCard icon={icon2} title="Health Check" />
-//         <ServicesCard icon={icon3} title="Heart Health" />
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Services;
-
-
-
-
-
-
-
-
-
-
-
-
 import React, { useState, useEffect } from "react";
 import Button from "../layouts/Button";
 import { RiMicroscopeLine } from "react-icons/ri";
 import ServicesCard from "../layouts/ServicesCard";
 import { MdHealthAndSafety } from "react-icons/md";
 import { FaHeartbeat } from "react-icons/fa";
+import { data } from '../constant.js';
 
 const Services = () => {
-  const icon1 = <RiMicroscopeLine size={35} className="text-backgroundColor" />;
-  const icon2 = <MdHealthAndSafety size={35} className="text-backgroundColor" />;
-  const icon3 = <FaHeartbeat size={35} className="text-backgroundColor" />;
 
-  const [visibleCards, setVisibleCards] = useState(6); // Initially show 6 cards
+  const [visibleCards, setVisibleCards] = useState(data.slice(0, 2));
 
   useEffect(() => {
     const updateVisibleCards = () => {
@@ -75,21 +21,25 @@ const Services = () => {
         cardsPerRow = 3;
       }
       const totalCards = cardsPerRow * 3; // Assuming 3 rows
-      setVisibleCards(Math.min(visibleCards, totalCards));
+      setVisibleCards(data.slice(0, totalCards));
     };
 
     updateVisibleCards();
-    window.addEventListener("resize", updateVisibleCards);
+    const handleResize = () => {
+      updateVisibleCards();
+    };
+    window.addEventListener("resize", handleResize);
 
-    return () => window.removeEventListener("resize", updateVisibleCards);
-  }, [visibleCards]);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
 
   const handleLoadMore = () => {
     setVisibleCards((prev) => prev + 6); // Increase by 6 cards on Load More
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center lg:px-32 px-5 lg:pt-24 pt-16">
+    <div className="min-h-screen flex flex-col justify-center lg:px-32 px-5 lg:pt-24 pt-16 mb-32">
       <div className="flex flex-col lg:flex-row items-center justify-between">
         <div>
           <h1 className="text-4xl font-semibold text-center lg:text-start">
@@ -101,16 +51,17 @@ const Services = () => {
         </div>
       </div>
       <div className="flex flex-row flex-wrap gap-4 pt-8 lg:pt-14 justify-center">
-        {[...Array(visibleCards)].map((_, index) => (
+        {visibleCards.map((d, index) => (
           <ServicesCard
             key={index}
-            icon={index % 3 === 0 ? icon1 : index % 3 === 1 ? icon2 : icon3}
-            title={`Service ${index + 1}`}
+            icon={d.img}
+            title={d.title}
+            description={d.description}
           />
         ))}
       </div>
       {visibleCards < 18 && (
-        <div className="flex justify-center mt-8">
+        <div className="flex justify-center mt-8 mb-12">
           <Button onClick={handleLoadMore} title={"Load More"}></Button>
         </div>
       )}
@@ -119,6 +70,4 @@ const Services = () => {
 };
 
 export default Services;
-
-
 
