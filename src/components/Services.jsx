@@ -7,35 +7,12 @@ import { FaHeartbeat } from "react-icons/fa";
 import { data } from '../constant.js';
 
 const Services = () => {
-
   const [visibleCards, setVisibleCards] = useState(data.slice(0, 2));
 
-  useEffect(() => {
-    const updateVisibleCards = () => {
-      const screenWidth = window.innerWidth;
-      let cardsPerRow = 1; // Default to 1 card per row
-      if (screenWidth >= 768) {
-        cardsPerRow = 2;
-      }
-      if (screenWidth >= 1024) {
-        cardsPerRow = 3;
-      }
-      const totalCards = cardsPerRow * 3; // Assuming 3 rows
-      setVisibleCards(data.slice(0, totalCards));
-    };
-
-    updateVisibleCards();
-    const handleResize = () => {
-      updateVisibleCards();
-    };
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-
   const handleLoadMore = () => {
-    setVisibleCards((prev) => prev + 6); // Increase by 6 cards on Load More
+    const currentVisibleCardsCount = visibleCards.length;
+    const nextVisibleCardsCount = currentVisibleCardsCount + 4;
+    setVisibleCards(data.slice(0, nextVisibleCardsCount));
   };
 
   return (
@@ -60,9 +37,9 @@ const Services = () => {
           />
         ))}
       </div>
-      {visibleCards < 18 && (
+      {visibleCards.length < data.length && (
         <div className="flex justify-center mt-8 mb-12">
-          <Button onClick={handleLoadMore} title={"Load More"}></Button>
+          <Button handleClick={() => handleLoadMore()} title={"Load More"}></Button>
         </div>
       )}
     </div>
@@ -70,4 +47,3 @@ const Services = () => {
 };
 
 export default Services;
-
