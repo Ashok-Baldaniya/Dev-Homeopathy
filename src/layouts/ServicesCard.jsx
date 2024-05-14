@@ -31,9 +31,9 @@ const ServicesCard = ({ icon, title, description }) => {
         {description}
       </p>
 
-      <h3 onClick={handleLearnMore} className="text-backgroundColor cursor-pointer transition duration-300 ease-in-out">
-        Learn more
-      </h3>
+      <button onClick={handleLearnMore} className="bg-blue-200 hover:bg-blue-400 text-blue-800 font-semibold py-1 px-4 rounded-lg transition duration-300 ease-in-out mb-1">
+        Read more
+      </button>
 
       {isModalOpen && (
         <div className="fixed inset-0 z-50 overflow-y-auto overflow-x-hidden flex items-center justify-center bg-gray-500 bg-opacity-75 modal-open">
