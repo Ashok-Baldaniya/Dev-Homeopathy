@@ -4,11 +4,11 @@ import ServicesCard from "../layouts/ServicesCard";
 import { data } from '../constant.js';
 
 const Services = () => {
-  const [visibleCards, setVisibleCards] = useState(data.slice(0, 2));
+  const [visibleCards, setVisibleCards] = useState(data.slice(0, 3));
 
   const handleLoadMore = () => {
     const currentVisibleCardsCount = visibleCards.length;
-    const nextVisibleCardsCount = currentVisibleCardsCount + 4;
+    const nextVisibleCardsCount = currentVisibleCardsCount + 3;
     setVisibleCards(data.slice(0, nextVisibleCardsCount));
   };
 
