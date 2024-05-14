@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Button from "../layouts/Button";
-import { RiMicroscopeLine } from "react-icons/ri";
 import ServicesCard from "../layouts/ServicesCard";
-import { MdHealthAndSafety } from "react-icons/md";
-import { FaHeartbeat } from "react-icons/fa";
 import { data } from '../constant.js';
 
 const Services = () => {
